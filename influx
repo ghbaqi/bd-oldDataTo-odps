@@ -1,0 +1,150 @@
+
+[root@master pplabs]# cat  /home/pplabs/login-influxdb.sh
+influx -username admin -password 'H!17FHU36pZw&xV3' -precision rfc3339
+
+
+sh  login-influxdb.sh
+
+> use telegraf ;
+Using database telegraf
+> show  measurements;
+name: measurements
+name
+----
+bandwidth_compensation
+cpu
+cpu_1h
+cpu_5m
+disk
+disk_1h
+disk_5m
+diskio
+diskio_1h
+docker
+docker_container_blkio
+docker_container_cpu
+docker_container_mem
+docker_container_net
+docker_container_net_5m
+docker_container_status
+docker_data
+docker_devicemapper
+docker_metadata
+iplist
+mem
+mem_1h
+mem_5m
+net
+net_1h
+net_1m
+net_5m
+net_5m_origin
+pi_flow_robot_5m
+procstat_lookup
+procstat_lookup_5m
+
+
+2020-12-10T00:00:01Z
+
+select  * from  five_minutes.net_5m  where  time > '2020-12-14'  limit 1;
+
+
+select  count(*) AS count from  five_minutes.net_5m   where  time >= '2020-12-10T00:00:00Z'  and  time < '2020-12-11T00:00:00Z'  ;
+
+select *  from   five_minutes.bandwidth_compensation   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+
+
+select *   from  five_minutes.cpu_5m   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+time                 cpu       host                             usage_active
+----                 ---       ----                             ------------
+2020-12-15T00:00:00Z cpu-total 0035300aef7bcf9e8e8f55fe84523c0c 15.17929299582154
+2020-12-15T00:00:00Z cpu-total 003f14e94e8b89c56d86cc30d8f17d72 4.6901437172838305
+
+
+select *   from  five_minutes.disk_5m   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+time                 device host                             increment total       used       used_percent
+----                 ------ ----                             --------- -----       ----       ------------
+2020-12-15T00:00:00Z dm-0   3646d44e9d004d10b94b16b81d5d46ed 0         53660876800 9670549504 18.021601734245237
+2020-12-15T00:00:00Z dm-0   7710fa97f9227f27e3acd8157423507d 0         53660876800 5976354816 11.137266426477773
+
+
+select *   from  five_minutes.docker_container_net_5m   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+name: docker_container_net_5m
+time                 container_name              container_version down_bandwidth        host                             network up_bandwidth
+----                 --------------              ----------------- --------------        ----                             ------- ------------
+2020-12-15T00:00:00Z centos7-on-ppp19-privileged unknown           0.07750466666666667   247f3166dfa735df73a921b3ff6363cf total   0.09246592
+2020-12-15T00:00:00Z centos7-on-ppp20-privileged unknown           0.0008725066666666666 247f3166dfa735df73a921b3ff6363cf total   0
+
+
+select *   from  five_minutes.mem_5m   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+name: mem_5m
+time                 host                             total        used         used_percent
+----                 ----                             -----        ----         ------------
+2020-12-15T00:00:00Z 0035300aef7bcf9e8e8f55fe84523c0c 67507822592  12062593024  17.868437405992523
+2020-12-15T00:00:00Z 003f14e94e8b89c56d86cc30d8f17d72 202707980288 120835715072 59.61073407190042
+
+
+select *   from  five_minutes.net_5m_origin   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+name: net_5m_origin
+time                 depreciation down_bandwidth     host                             up_bandwidth
+----                 ------------ --------------     ----                             ------------
+2020-12-15T09:55:00Z 0.95         11628.181957804361 2afcaa9b8853789d664e314c997168fa 13994.366542663574
+2020-12-15T10:05:00Z 0.95         11652.564325154623 2afcaa9b8853789d664e314c997168fa 14094.827874425251
+
+
+select *   from  five_minutes.net_5m_origin_down_bandwidth   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+name: net_5m_origin_down_bandwidth
+time                 depreciation down_bandwidth     host                             up_bandwidth
+----                 ------------ --------------     ----                             ------------
+2020-12-15T09:55:00Z 0.95         11628.181957804361 2afcaa9b8853789d664e314c997168fa 44.567421493530276
+2020-12-15T10:05:00Z 0.95         11652.564325154623 2afcaa9b8853789d664e314c997168fa 10.02542059580485
+
+
+select *   from  five_minutes.pi_flow_robot_5m   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+name: pi_flow_robot_5m
+time                 host                             up_bandwidth
+----                 ----                             ------------
+2020-12-15T02:25:00Z cbc9534ae5044e72939c9ea253ed2c15 158009291.25
+2020-12-15T02:30:00Z cbc9534ae5044e72939c9ea253ed2c15 163039899.8
+
+
+select *   from  five_minutes.procstat_lookup_5m   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+name: procstat_lookup_5m
+time                 dcache_id host                             pattern running
+----                 --------- ----                             ------- -------
+2020-12-15T00:00:00Z           0035300aef7bcf9e8e8f55fe84523c0c dcache  0
+2020-12-15T00:00:00Z           ffdf77f9408d5983fcd80c43b1f31bd3 ksp2p   40
+
+select *   from  five_minutes.bandwidth_compensation   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+name: bandwidth_compensation
+time                 host                             up_bandwidth
+----                 ----                             ------------
+2020-12-15T11:05:00Z 0b4cd62989934d17a0d587f822b62b41 858.2425722610195
+2020-12-15T11:05:00Z 0be35eb7f0742e3562bc21066d1ca702 464.9854084647622
+
+
+
+
+curl   '127.0.0.1:9950/sync?startDateStr=2020-01-01&endDateStr=2020-12-17&tableName=t_old_cpu_5m'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

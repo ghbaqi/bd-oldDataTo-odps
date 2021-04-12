@@ -1,0 +1,102 @@
+
+
+041: pi-cloud-ali-zjhz                                                          47.114.74.103:22      ssh   pplabs
+
+[root@master pplabs]# cat  /home/pplabs/login-influxdb.sh
+influx -username admin -password 'H!17FHU36pZw&xV3' -precision rfc3339
+
+
+sh  login-influxdb.sh
+
+> use telegraf ;
+Using database telegraf
+> show  measurements;
+name: measurements
+name
+----
+bandwidth_compensation
+cpu
+cpu_1h
+cpu_5m
+disk
+disk_1h
+disk_5m
+diskio
+diskio_1h
+docker
+docker_container_blkio
+docker_container_cpu
+docker_container_mem
+docker_container_net
+docker_container_net_5m
+docker_container_status
+docker_data
+docker_devicemapper
+docker_metadata
+iplist
+mem
+mem_1h
+mem_5m
+net
+net_1h
+net_1m
+net_5m
+net_5m_origin
+pi_flow_robot_5m
+procstat_lookup
+procstat_lookup_5m
+
+bandwidth_compensation
+2020-12-10T00:00:01Z
+
+select  * from  five_minutes.bandwidth_compensation  where  time > '2021-03-10T00:00:00Z'  limit 10;
+
+
+select  count(*) AS count from  five_minutes.net_5m   where  time >= '2020-12-10T00:00:00Z'  and  time < '2020-12-11T00:00:00Z'  ;
+
+select *  from   five_minutes.bandwidth_compensation   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+
+
+select *   from  five_minutes.cpu_5m   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+time                 cpu       host                             usage_active
+----                 ---       ----                             ------------
+2020-12-15T00:00:00Z cpu-total 0035300aef7bcf9e8e8f55fe84523c0c 15.17929299582154
+2020-12-15T00:00:00Z cpu-total 003f14e94e8b89c56d86cc30d8f17d72 4.6901437172838305
+
+
+select *   from  five_minutes.disk_5m   where  time >= '2020-12-15T00:00:00Z'   limit  2;
+
+
+time                 device host                             increment total       used       used_percent
+----                 ------ ----                             --------- -----       ----       ------------
+2020-12-15T00:00:00Z dm-0   3646d44e9d004d10b94b16b81d5d46ed 0         53660876800 9670549504 18.021601734245237
+2020-12-15T00:00:00Z dm-0   7710fa97f9227f27e3acd8157423507d 0         53660876800 5976354816 11.137266426477773
+
+
+
+curl   '127.0.0.1:9950/sync?startDateStr=2020-01-01&endDateStr=2020-12-17&tableName=t_old_cpu_5m'
+
+time                 container_name              container_version down_bandwidth        host                             network up_bandwidth
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
